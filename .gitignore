@@ -1,0 +1,6 @@
+__pycache__
+.venv
+data/images/back/*
+data/images/front/*
+data/images/main_menu/*
+data/images/table/*
