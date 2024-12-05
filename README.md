@@ -17,3 +17,10 @@ Currently you also need to populate the ```./data/images/``` folder with followi
 In those folders you can put whatever images you want, but I suggest you use .png as the file format, as the game uses alpha channel in some parts. The ```./back```, ```./main_menu``` and ```./table``` folders must contain atleast one image each. For the ```./front``` folder 32 images is the optimal amount. 
 
 The game can be started by running ```./main.py```
+
+## What the game looks like
+
+Here are some screenshots from the game. I used Minecraft-themed images as game graphics.
+
+### Main screen
+![Main Menu]{/data/demo/main_menu.png "Main Menu"}
