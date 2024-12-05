@@ -1,7 +1,6 @@
 from pygame import init as init_game
-from classes.Engine import Engine
-from classes.MemoryGame import MemoryGame
-from classes.MainMenu import MainMenu
+from classes.state_machine.Engine import Engine
+from classes.screens.MainMenu import MainMenu
 
 
 def main() -> None:
