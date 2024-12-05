@@ -1,0 +1,16 @@
+Put your image folders here:
+
+/back/
+This folder contains images that are rendered as the card backside images. Put atleast one image inside.
+
+/front/
+This folder contains the front side of the cards, e.g. what you are trying to find pairs of in the game. 
+There should be atleast 32 unique images if you are playing with default settings. 
+Alternatively, you can navigate to ./utils/settings.py and edit the card amount in Cards.amount to change the number of rendered cards for the game. 
+This will currently also affect the layout of the game, so no quarantee is given on what it will look like if the amount is changed.
+
+/main_menu/
+This folder contains the background images for the main menu. Put atleast one image inside.
+
+/table/
+This folder contains the background images for the game table. Put atleast one image inside.
