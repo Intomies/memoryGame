@@ -23,4 +23,21 @@ The game can be started by running ```./main.py```
 Here are some screenshots from the game. I used Minecraft-themed images as game graphics.
 
 ### Main screen
+This is the main screen of the game. You can play by yourself, or with a friend.
 ![Main Menu](https://github.com/Intomies/memoryGame/blob/main/data/demo/main_menu.png)
+
+### Player setup
+You can give your player a name and choose your avatar.
+![Player Setup](https://github.com/Intomies/memoryGame/blob/main/data/demo/player_setup.png)
+
+### Avatar selection
+All your favourite avatars are available (these are the same images that are used as playing cards).
+![Avatar Select](https://github.com/Intomies/memoryGame/blob/main/data/demo/avatar_select.png)
+
+### Gameplay screen
+The game is filled with action packed memory game excitement!
+![Gameplay](https://github.com/Intomies/memoryGame/blob/main/data/demo/gameplay.png)
+
+### End screen
+Game ends and the winner is announced when all the pairs have been found (or if you choose to end it early). 
+![Game End](https://github.com/Intomies/memoryGame/blob/main/data/demo/game_end.png)
