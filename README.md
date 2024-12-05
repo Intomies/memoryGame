@@ -23,4 +23,4 @@ The game can be started by running ```./main.py```
 Here are some screenshots from the game. I used Minecraft-themed images as game graphics.
 
 ### Main screen
-![Main Menu]{/data/demo/main_menu.png "Main Menu"}
+![Main Menu](https://github.com/Intomies/memoryGame/blob/main/data/demo/player_setup.png)
