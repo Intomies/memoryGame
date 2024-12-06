@@ -30,6 +30,8 @@ class PlayerDetailEditor:
         self.player_img_rect: Optional[Rect] = None
         self.name_editor_surface: Optional[Surface] = None
         self.name_editor_rect: Optional[Rect] = None
+        self.active_name_editor_border: Optional[Surface] = None
+        self.active_name_editor_border_rect: Optional[Rect] = None
         
         self.name_input_active: bool = False
         self.image_selector_active: bool = False
@@ -40,7 +42,7 @@ class PlayerDetailEditor:
     def draw_player_details_editor(self) -> None:
         border_width = 2
         name_editor_border_color = Colors.active if self.name_input_active else Colors.passive
-        self.name_editor_rect.width = self.editor_bg_rect.width - 10
+        # self.name_editor_rect.width = self.editor_bg_rect.width - 10
         self.name_editor_rect.x = self.editor_bg_rect.x + (self.editor_bg_rect.width - self.name_editor_rect.width) // 2
 
         self.display_surface.blit(self.editor_bg_surface, self.editor_bg_rect)
@@ -49,9 +51,10 @@ class PlayerDetailEditor:
         self.display_surface.blit(self.player.image, self.player_img_rect)
         draw_rect(self.display_surface, Colors.passive, self.player_img_rect, border_width)
 
-        self.display_surface.blit(self.name_editor_surface, self.name_editor_rect)
         if self.name_input_active:
-            draw_rect(self.display_surface, name_editor_border_color, self.name_editor_rect, border_width)
+            self.display_surface.blit(self.active_name_editor_border, self.active_name_editor_border_rect)
+            draw_rect(self.display_surface, name_editor_border_color, self.active_name_editor_border_rect, border_width)
+        self.display_surface.blit(self.name_editor_surface, self.name_editor_rect)
 
     
     def draw_image_selector(self, set_active_image_selector: Callable, latest_mouse_event: Event, cooldown: bool):
@@ -107,6 +110,9 @@ class PlayerDetailEditor:
         
         self.name_editor_surface = self.name_editor_font.render(str(self.player.name), True, Colors.active)
         self.name_editor_rect = self.name_editor_surface.get_rect(center=name_editor_pos)
+
+        self.active_name_editor_border_rect = Rect(self.editor_bg_rect.left, self.name_editor_rect.top, self.editor_bg_rect.width - 10, self.name_editor_rect.height)
+        self.active_name_editor_border = Surface(self.active_name_editor_border_rect.size)
 
 
     def __get_bg_rect(self) -> Rect:
