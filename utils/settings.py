@@ -74,7 +74,7 @@ class Tables:
 
 @dataclass(frozen=True)
 class Fonts:
-    main_font_style = 'Silkscreen-regular'
+    main_font_style = './utils/font/Silkscreen/Silkscreen-Regular.ttf'
     
     large_font_size = 144
     medium_font_size = 72
@@ -89,15 +89,15 @@ class Fonts:
 
     @classmethod
     def large(self) -> Font:
-        return SysFont(self.main_font_style, self.large_font_size)
+        return Font(self.main_font_style, self.large_font_size)
 
     @classmethod
     def medium(self) -> Font:
-        return SysFont(self.main_font_style, self.medium_font_size)
+        return Font(self.main_font_style, self.medium_font_size)
     
     @classmethod
     def small(self) -> Font:
-        return SysFont(self.main_font_style, self.small_font_size)
+        return Font(self.main_font_style, self.small_font_size)
         
 
 @dataclass(frozen=True)
