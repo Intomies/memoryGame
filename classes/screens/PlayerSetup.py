@@ -7,13 +7,13 @@ from pygame.transform import scale
 from typing import List, Optional
 
 from classes.screens import MainMenu
-from classes.components.Button import Button
+from classes.screen_items.Button import Button
 from classes.state_machine.Engine import Engine
 from classes.screens.MemoryGame import MemoryGame
-from classes.components.Player import Player
-from classes.components.PlayerDetailEditor import PlayerDetailEditor
+from classes.game_components.Player import Player
+from classes.screen_items.PlayerDetailEditor import PlayerDetailEditor
 from classes.state_machine.State import State
-from classes.components.Table import Table
+from classes.game_components.Table import Table
 from utils.names import NAMES
 from utils.settings import Buttons, Images, Paths, Screens, Fonts
 from utils.support import get_graphics_images_from_folder

@@ -2,7 +2,7 @@ from pygame import Surface
 from pygame.draw import rect as draw_rect
 from typing import List
 
-from classes.components.Card import Card
+from classes.game_components.Card import Card
 from utils.settings import Cards, Colors, Decks
 
 

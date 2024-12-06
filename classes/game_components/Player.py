@@ -1,8 +1,8 @@
 from typing import Optional
 from pygame import Surface
 
-from classes.components.ImageDisplay import ImageDisplay
-from classes.components.TextDisplay import TextDisplay
+from classes.screen_items.ImageDisplay import ImageDisplay
+from classes.screen_items.TextDisplay import TextDisplay
 from utils.settings import Games, Fonts
 
 

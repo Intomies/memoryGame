@@ -4,7 +4,7 @@ from pygame.draw import rect as draw_rect
 from pygame.event import Event
 from pygame.transform import scale
 
-from classes.components.Player import Player
+from classes.game_components.Player import Player
 from utils.settings import Colors, Images, Fonts
 
 

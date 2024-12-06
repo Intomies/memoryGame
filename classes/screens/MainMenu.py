@@ -8,12 +8,12 @@ from pygame.rect import Rect
 from pygame.transform import scale
 from typing import Callable, Dict, List, Optional
 
-from classes.components.Button import Button
+from classes.screen_items.Button import Button
 from classes.state_machine.Engine import Engine
 from classes.screens.PlayerSetup import PlayerSetup
 from classes.state_machine.State import State
-from classes.components.Table import Table
-from classes.components.TextDisplay import TextDisplay
+from classes.game_components.Table import Table
+from classes.screen_items.TextDisplay import TextDisplay
 from utils.settings import Buttons, Colors, Images, Mains, Paths, Screens, Tables, Fonts
 from utils.support import get_graphics_images_from_folder
 from time import time_ns

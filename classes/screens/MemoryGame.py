@@ -7,15 +7,15 @@ from pygame.transform import scale
 from random import choice, sample, shuffle
 from typing import List, Optional
 
-from classes.components.Button import Button
-from classes.components.Card import Card
-from classes.components.Deck import Deck
+from classes.screen_items.Button import Button
+from classes.game_components.Card import Card
+from classes.game_components.Deck import Deck
 from classes.state_machine.Engine import Engine
-from classes.components.GameOver import GameOver
-from classes.components.Player import Player
+from classes.screen_items.GameOver import GameOver
+from classes.game_components.Player import Player
 from classes.state_machine.State import State
-from classes.components.Table import Table
-from classes.components.TextDisplay import TextDisplay
+from classes.game_components.Table import Table
+from classes.screen_items.TextDisplay import TextDisplay
 
 from utils.settings import Buttons, Cards, Paths, Screens, Tables, Fonts
 from utils.support import get_graphics_images_from_folder

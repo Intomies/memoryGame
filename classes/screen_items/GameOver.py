@@ -2,8 +2,8 @@ from typing import Optional
 from pygame import Surface, Rect
 from pygame.draw import rect as draw_rect
 
-from classes.components.Button import Button
-from classes.components.Player import Player
+from classes.screen_items.Button import Button
+from classes.game_components.Player import Player
 from utils.settings import Buttons, Colors, Fonts
 
 
