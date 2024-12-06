@@ -62,7 +62,7 @@ class MainMenu(State):
     def init(self) -> None:
         self.create_table()
         self.create_bg_animation()
-        self.create_items()
+        self.create_screen_items()
         self.active_button = self.button_1_player
 
 
@@ -120,7 +120,7 @@ class MainMenu(State):
             self.active_button = next((button for button in self.selection_buttons if button.rect.collidepoint(event.pos)), self.active_button)
 
     
-    def create_items(self) -> None:
+    def create_screen_items(self) -> None:
         center = self.screen_width // 2
         headline_pos_y = self.screen_height // 5
         
