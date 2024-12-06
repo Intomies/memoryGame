@@ -30,7 +30,7 @@ This is the main screen of the game. You can play by yourself, or with a friend.
 ### Player setup
 You can give your player a name and choose your avatar.
 
-![Player Setup](https://github.com/Intomies/memoryGame/blob/main/data/demo/player_setup.png)
+![Player Setup](https://github.com/Intomies/memoryGame/blob/main/data/demo/player_editor.png)
 
 ### Avatar selection
 All your favourite avatars are available (these are the same images that are used as playing cards).
