@@ -97,16 +97,14 @@ class PlayerDetailEditor:
 
 
     def __init(self) -> None:
-        image_pos_div = 3
-        name_editor_pos_div = 32
-        
         self.editor_bg_rect = self.__get_bg_rect()
         self.editor_bg_surface = Surface((self.editor_bg_rect.size), masks=Colors.background)
 
-        image_pos = (self.editor_bg_rect.centerx, self.editor_bg_rect.centery - self.editor_bg_rect.height // image_pos_div)
-        name_editor_pos = (self.editor_bg_rect.centerx, self.editor_bg_rect.centery - self.editor_bg_rect.height // name_editor_pos_div)
-        
+        image_pos = (self.editor_bg_rect.centerx, self.editor_bg_rect.top + Fonts.padding_top)
         self.player_img_rect = self.player.image.get_rect(center=image_pos)
+
+        name_editor_pos = (self.editor_bg_rect.centerx, self.player_img_rect.bottom + Fonts.padding_top)
+        
         self.name_editor_surface = self.name_editor_font.render(str(self.player.name), True, Colors.active)
         self.name_editor_rect = self.name_editor_surface.get_rect(center=name_editor_pos)
 
