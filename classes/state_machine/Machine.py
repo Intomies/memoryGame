@@ -16,4 +16,4 @@ class Machine:
     
     def previous(self) -> None:
         self.current_state = self.previous_state
-        self.next_state = None
+        self.previous_state = None
