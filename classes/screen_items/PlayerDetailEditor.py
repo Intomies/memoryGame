@@ -1,5 +1,5 @@
 from typing import Callable, List, Optional
-from pygame import MOUSEBUTTONDOWN, Rect, Surface
+from pygame import K_BACKSPACE, KEYDOWN, MOUSEBUTTONDOWN, TEXTINPUT, Rect, Surface
 from pygame.draw import rect as draw_rect
 from pygame.event import Event
 from pygame.transform import scale
@@ -91,6 +91,18 @@ class PlayerDetailEditor:
                     set_active_image_selector(None)
                     self.image_selector_active = False
                     return           
+                
+    
+    def handle_name_input(self, event: Event):
+        name: str = self.player.name
+        
+        if event.type == TEXTINPUT:
+            name += event.text if len(name) < Fonts.name_length else ''
+        if event.type == KEYDOWN: 
+            if event.key == K_BACKSPACE:
+                name = self.player.name[:-1]
+
+        self.set_player_name(name)
 
     
     def set_player_name(self, name: str) -> None:

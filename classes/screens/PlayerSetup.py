@@ -78,41 +78,19 @@ class PlayerSetup(State):
             if self.button_back.rect.collidepoint(event.pos):
                 self.engine.run(MainMenu.MainMenu(self.engine))
 
-            # self.player_1_editor.name_input_active = self.player_1_editor.name_editor_rect.collidepoint(event.pos)
-            # self.player_1_editor.image_selector_active = self.player_1_editor.player_img_rect.collidepoint(event.pos)
-
-            # if self.players_amount == 2:
-            #     self.player_2_editor.name_input_active = self.player_2_editor.name_editor_rect.collidepoint(event.pos)
-            #     self.player_2_editor.image_selector_active = self.player_2_editor.player_img_rect.collidepoint(event.pos)
-
             for editor in self.player_editors: 
                 editor.image_selector_active = editor.player_img_rect.collidepoint(event.pos)
                 editor.name_input_active = editor.name_editor_rect.collidepoint(event.pos)
             
 
-        if list(filter(lambda editor: editor.name_input_active, self.player_editors)): self.handle_name_input(event)
-
-        # if self.player_1_editor.name_input_active or (self.players_amount == 2 and self.player_2_editor.name_input_active):
-        #     self.handle_name_input(event)
+        if list(filter(lambda editor: editor.name_input_active, self.player_editors)): 
+            next((editor for editor in self.player_editors if editor.name_input_active)).handle_name_input(event)
 
         if not self.active_image_selector:
             if list(filter(lambda editor: editor.image_selector_active, self.player_editors)):
                 self.active_image_selector = next((editor for editor in self.player_editors if editor.image_selector_active))
             else:
                 self.active_image_selector = None
-
-
-    def handle_name_input(self, event: Event) -> None:
-        active_editor: PlayerDetailEditor = next((editor for editor in self.player_editors if editor.name_input_active))
-        name: str = active_editor.player.name
-        
-        if event.type == TEXTINPUT:
-            name += event.text if len(name) < Fonts.name_length else ''
-        if event.type == KEYDOWN: 
-            if event.key == K_BACKSPACE:
-                name = active_editor.player.name[:-1]
-        
-        active_editor.set_player_name(name)
 
 
     def create_screen_items(self) -> None:
