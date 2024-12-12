@@ -124,7 +124,7 @@ class PlayerDetailEditor:
         offset_div_1_p = width_div * 2
 
         match self.player.id:
-            case 1:
+            case 0:
                 rect_left_offset = offset_div_x_2_pla if self.player_amount == 2 else offset_div_1_p
                 return Rect(
                     self.screen_width // center_div_x - self.screen_width // rect_left_offset, 
@@ -132,7 +132,7 @@ class PlayerDetailEditor:
                     self.screen_width // width_div, 
                     self.screen_height // height_div
                 )
-            case 2:
+            case 1:
                 return Rect(
                     self.screen_width // center_div_x + self.screen_width // offset_div_x_2_pla - self.screen_width // width_div, 
                     self.screen_height // center_div_y, 
