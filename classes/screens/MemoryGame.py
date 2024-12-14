@@ -24,10 +24,8 @@ from utils.support import get_graphics_images_from_folder
 class MemoryGame(State):
     def __init__(
             self, 
-            engine: Engine, 
-            players_amount: int,
-            player_1: Player, 
-            player_2: Optional[Player] = None
+            engine: Engine,
+            players: list[Player],
             ) -> None:
         super().__init__(engine=engine)
 
@@ -41,16 +39,9 @@ class MemoryGame(State):
         self.deck: Optional[Deck] = None 
         self.players: List[Player] = []
 
-        self.players_amount = players_amount
-        self.player_1: Optional[Player] = player_1
-        self.player_2: Optional[Player] = player_2
-        self.active_player: Player = choice([self.player_1, self.player_2]) if self.players_amount == 2 else self.player_1
-        
-        self.player_1_name_display: Optional[TextDisplay] = None
-        self.player_2_name_display: Optional[TextDisplay] = None
-        
-        self.player_1_score_display: Optional[TextDisplay] = None
-        self.player_2_score_display: Optional[TextDisplay] = None
+        self.players = players
+        self.players_amount = len(self.players)
+        self.active_player: Player = choice(self.players)
 
         self.button_back: Optional[Button] = None
         self.button_quit: Optional[Button] = None
@@ -67,13 +58,12 @@ class MemoryGame(State):
 
     def init(self) -> None:
         self.game_over = False
-        self.player_1.score = 0
-        if self.player_2: self.player_2.score = 0
         self.turns = 0
         self.open_cards = []
         self.player_found_pair = False
         self.game_over_view = None
-        self.active_player: Player = choice([self.player_1, self.player_2]) if self.players_amount == 2 else self.player_1
+        for player in self.players: player.score = 0
+        self.active_player: Player = choice(self.players)
 
         self.create_table()
         self.create_deck()
@@ -115,20 +105,11 @@ class MemoryGame(State):
         buttons_x = Buttons.padding_x
         button_quit_y = self.screen_height - Buttons.padding_y
         self.button_quit = Button(4, 'Quit', (buttons_x, button_quit_y), Fonts.medium())
+        
         button_back_y = button_quit_y - Buttons.padding_y
         self.button_back = Button(3, 'Back', (buttons_x, button_back_y), Fonts.medium())
 
-        self.player_1.set_display_surface(self.display_surface)
-        self.player_1.set_name_display()
-        self.player_1.set_score_display()
-        self.player_1.set_image_display()
-        
-        if self.players_amount == 2:
-            self.player_2.set_display_surface(self.display_surface)
-            self.player_2.set_name_display()
-            self.player_2.set_score_display()
-            self.player_2.set_image_display()
-
+        for player in self.players: player.set_view(self.display_surface)
         self.game_over_view = GameOver(self.display_surface)
 
     
@@ -148,7 +129,7 @@ class MemoryGame(State):
         if event.type == MOUSEMOTION:
             self.button_back.set_active(self.button_back.rect.collidepoint(event.pos) if self.button_back.rect else False)
             self.button_quit.set_active(self.button_quit.rect.collidepoint(event.pos) if self.button_quit.rect else False)
-            if self.game_over:
+            if self.game_over and self.game_over_view.ready:
                 self.game_over_view.new_game_button.set_active(self.game_over_view.new_game_button.rect.collidepoint(event.pos))
                 self.game_over_view.back_button.set_active(self.game_over_view.back_button.rect.collidepoint(event.pos))
             
@@ -163,12 +144,8 @@ class MemoryGame(State):
             if not self.handle_card_turn(card):
                 continue
             
-            if not self.player_found_pair and self.players_amount == 2:
-                self.active_player = (
-                    self.player_1 
-                    if self.active_player.id != self.player_1.id 
-                    else self.player_2
-                )
+            if not self.player_found_pair and self.players_amount > 1:
+                self.active_player = next((player for player in self.players if player.id != self.active_player.id))
             break
 
         self.player_found_pair = False
@@ -212,16 +189,13 @@ class MemoryGame(State):
 
     def handle_game_over(self) -> None:
         self.game_over = True
-        self.game_over_view.player_1 = self.player_1
-        self.game_over_view.player_2 = self.player_2
+        self.game_over_view.players = self.players
         self.game_over_view.turns = self.turns
+        self.game_over_view.populate()
 
 
     def update(self) -> None:
-        self.player_1.set_score_display()
-        if self.players_amount == 2:
-            self.player_2.set_score_display()
-        if self.game_over: self.game_over_view.populate()
+        pass
 
 
     def draw(self) -> None:
@@ -230,19 +204,14 @@ class MemoryGame(State):
         self.button_back.draw_hoverable(self.display_surface)
         self.button_quit.draw_hoverable(self.display_surface)
 
-        player_1_turn = self.active_player.id == self.player_1.id
-
-        self.player_1.image_display.draw(active=player_1_turn)
-        self.player_1.name_display.draw(display=self.display_surface, active=player_1_turn)
-        self.player_1.score_display.draw(display=self.display_surface, active=player_1_turn)
-        if self.players_amount == 2:
-            self.player_2.image_display.draw(active=not player_1_turn)
-            self.player_2.name_display.draw(display=self.display_surface, active=not player_1_turn)
-            self.player_2.score_display.draw(display=self.display_surface, active=not player_1_turn)
+        for player in self.players:
+            player_turn = player.id == self.active_player.id
+            player.image_display.draw(active=player_turn)
+            player.name_display.draw(display=self.display_surface, active=player_turn)
+            player.score_display.draw(display=self.display_surface, active=player_turn)
 
         if self.game_over and self.game_over_view.ready: self.game_over_view.draw()
 
 
     def run(self) -> None:
-        self.update()
         self.draw()
