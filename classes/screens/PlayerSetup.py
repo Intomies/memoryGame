@@ -39,6 +39,8 @@ class PlayerSetup(State):
         self.player_1_editor: Optional[PlayerDetailEditor] = None
         self.player_2_editor: Optional[PlayerDetailEditor] = None
 
+        self.player_editors: list[PlayerDetailEditor] = []
+
         self.active_image_selector: Optional[PlayerDetailEditor] = None
         self.latest_event: Optional[Event] = None
         self.last_click_time = 0
@@ -68,43 +70,25 @@ class PlayerSetup(State):
             if self.button_start_game.rect.collidepoint(event.pos):
                 self.engine.machine.next_state = MemoryGame(
                     self.engine,
-                    self.players_amount,
-                    self.player_1_editor.player, 
-                    self.player_2_editor.player if self.player_2_editor else None
+                    [editor.player for editor in self.player_editors],
                     )
 
             if self.button_back.rect.collidepoint(event.pos):
                 self.engine.run(MainMenu.MainMenu(self.engine))
 
-            self.player_1_editor.name_input_active = self.player_1_editor.name_editor_rect.collidepoint(event.pos)
-            self.player_1_editor.image_selector_active = self.player_1_editor.player_img_rect.collidepoint(event.pos)
-
-            if self.players_amount == 2:
-                self.player_2_editor.name_input_active = self.player_2_editor.name_editor_rect.collidepoint(event.pos)
-                self.player_2_editor.image_selector_active = self.player_2_editor.player_img_rect.collidepoint(event.pos)
+            for editor in self.player_editors: 
+                editor.image_selector_active = editor.player_img_rect.collidepoint(event.pos)
+                editor.name_input_active = editor.name_editor_rect.collidepoint(event.pos)
             
 
-        if self.player_1_editor.name_input_active or (self.players_amount == 2 and self.player_2_editor.name_input_active):
-            self.handle_name_input(event)
+        if list(filter(lambda editor: editor.name_input_active, self.player_editors)): 
+            next((editor for editor in self.player_editors if editor.name_input_active)).handle_name_input(event)
 
         if not self.active_image_selector:
-            if self.player_1_editor.image_selector_active or (self.players_amount == 2 and self.player_2_editor.image_selector_active):
-                self.active_image_selector = self.player_1_editor if self.player_1_editor.image_selector_active else self.player_2_editor
+            if list(filter(lambda editor: editor.image_selector_active, self.player_editors)):
+                self.active_image_selector = next((editor for editor in self.player_editors if editor.image_selector_active))
             else:
                 self.active_image_selector = None
-
-
-    def handle_name_input(self, event: Event) -> None:
-        active_editor: PlayerDetailEditor = self.player_1_editor if self.player_1_editor.name_input_active else self.player_2_editor
-        name: str = active_editor.player.name
-        
-        if event.type == TEXTINPUT:
-            name += event.text if len(name) < Fonts.name_length else ''
-        if event.type == KEYDOWN: 
-            if event.key == K_BACKSPACE:
-                name = active_editor.player.name[:-1]
-        
-        active_editor.set_player_name(name)
 
 
     def create_screen_items(self) -> None:
@@ -114,31 +98,28 @@ class PlayerSetup(State):
         button_start_pos_x = headline_pos_x + Buttons.padding_x
         button_pos_y = headline_pos_y + Fonts.padding_top * Buttons.y_offset_down
 
-        player_images: List[Surface] | None = get_graphics_images_from_folder(Paths.card_front())
-
         self.button_start_game = Button(3, 'Start', (button_start_pos_x, button_pos_y), Fonts.medium())
         self.button_back = Button(3, 'Back', (button_back_pos_x, button_pos_y), Fonts.medium())
-        
-        player = Player(1, choice(NAMES), image=scale(choice(player_images), (Images.size_mid, Images.size_mid)))     
-        self.player_1_editor = PlayerDetailEditor(self.display_surface, player, player_images, self.players_amount)
 
-        if self.players_amount == 2:
-            player = Player(2, choice(NAMES), image=scale(choice(player_images), (Images.size_mid, Images.size_mid))) 
-            self.player_2_editor = PlayerDetailEditor(self.display_surface, player, player_images, self.players_amount)
+        self.create_editors()
 
     
-    def handle_player_draw(self) -> None:
-        self.player_1_editor.draw_player_details_editor()
-        
-        if self.players_amount == 2:
-            self.player_2_editor.draw_player_details_editor()
+    def create_editors(self) -> None:
+        player_images: List[Surface] | None = get_graphics_images_from_folder(Paths.card_front())
+        for i in range(self.players_amount):
+            player = Player(i, choice(NAMES), image=scale(choice(player_images), (Images.size_mid, Images.size_mid)))
+            editor = PlayerDetailEditor(self.display_surface, player, player_images, self.players_amount)
+            self.player_editors.append(editor)
+
+        print(len(self.player_editors))
 
 
     def draw(self) -> None:
         self.table.draw()
-        self.handle_player_draw()
+        for editor in self.player_editors: editor.draw_player_details_editor()
         self.button_start_game.draw_hoverable(self.display_surface)
         self.button_back.draw_hoverable(self.display_surface)
+        
         cooldown = get_ticks() - self.last_click_time < self.click_cooldown
         if self.active_image_selector is not None:
             self.active_image_selector.draw_image_selector(self.set_active_image_selector, self.latest_event, cooldown)
