@@ -30,6 +30,11 @@ class Button:
         self.active: bool = False
         self.rect: Optional[Rect] = None
 
+        self.__init()
+
+
+    def __init(self) -> None:
+        self.rect = Rect(self.position[0] - self.font_style.get_linesize() // 2, self.position[1] - self.font_style.get_height() // 2, self.font_style.get_linesize(), self.font_style.get_height())
     
     def set_clickable_active(self, get_active: Callable) -> None:
         self.active = get_active().id == self.id
