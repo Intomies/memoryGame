@@ -70,9 +70,7 @@ class PlayerSetup(State):
             if self.button_start_game.rect.collidepoint(event.pos):
                 self.engine.machine.next_state = MemoryGame(
                     self.engine,
-                    self.players_amount,
-                    self.player_1_editor.player, 
-                    self.player_2_editor.player if self.player_2_editor else None
+                    [editor.player for editor in self.player_editors],
                     )
 
             if self.button_back.rect.collidepoint(event.pos):
@@ -100,19 +98,10 @@ class PlayerSetup(State):
         button_start_pos_x = headline_pos_x + Buttons.padding_x
         button_pos_y = headline_pos_y + Fonts.padding_top * Buttons.y_offset_down
 
-        player_images: List[Surface] | None = get_graphics_images_from_folder(Paths.card_front())
-
         self.button_start_game = Button(3, 'Start', (button_start_pos_x, button_pos_y), Fonts.medium())
         self.button_back = Button(3, 'Back', (button_back_pos_x, button_pos_y), Fonts.medium())
 
         self.create_editors()
-        
-        player = Player(1, choice(NAMES), image=scale(choice(player_images), (Images.size_mid, Images.size_mid)))     
-        self.player_1_editor = PlayerDetailEditor(self.display_surface, player, player_images, self.players_amount)
-
-        if self.players_amount == 2:
-            player = Player(2, choice(NAMES), image=scale(choice(player_images), (Images.size_mid, Images.size_mid))) 
-            self.player_2_editor = PlayerDetailEditor(self.display_surface, player, player_images, self.players_amount)
 
     
     def create_editors(self) -> None:
@@ -123,14 +112,6 @@ class PlayerSetup(State):
             self.player_editors.append(editor)
 
         print(len(self.player_editors))
-
-
-    
-    def handle_player_draw(self) -> None:
-        self.player_1_editor.draw_player_details_editor()
-        
-        if self.players_amount == 2:
-            self.player_2_editor.draw_player_details_editor()
 
 
     def draw(self) -> None:
