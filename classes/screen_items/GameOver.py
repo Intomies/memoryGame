@@ -51,10 +51,11 @@ class GameOver:
         self.screen_bg = Surface((self.screen_bg_rect.size))
 
         button_x = self.screen_bg_rect.center[0]
+        
         back_button_y = self.screen_bg_rect.bottom - Buttons.padding_y
         self.back_button = Button(3, 'Back to menu', (button_x, back_button_y), self.font)
         
-        new_game_button_y = self.screen_bg_rect.bottom - Buttons.padding_y - Fonts.small_font_size * 1.1
+        new_game_button_y = self.screen_bg_rect.bottom - Buttons.padding_y - Fonts.small_font_size * 1.5
         self.new_game_button = Button(4, 'New game', (button_x, new_game_button_y), self.font)
 
 
