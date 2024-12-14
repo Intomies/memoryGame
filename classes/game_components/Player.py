@@ -28,13 +28,21 @@ class Player:
     
     def add_points(self):
         self.score += Games.points_per_pair
+        self.__set_score_display()
 
 
     def set_display_surface(self, display_surface: Surface) -> None:
         self.display_surface = display_surface
 
 
-    def set_image_display(self) -> None:
+    def set_view(self, display_surface: Surface) -> None:
+        self.display_surface = display_surface
+        self.__set_image_display()
+        self.__set_name_display()
+        self.__set_score_display()
+
+
+    def __set_image_display(self) -> None:
         view_x_pos = self.__get_view_x_position()
         pos_x = view_x_pos - self.image.get_width() // 2
         pos_y = Fonts.padding_bottom
@@ -47,7 +55,7 @@ class Player:
         )
 
 
-    def set_name_display(self) -> None:
+    def __set_name_display(self) -> None:
         pos_x = self.__get_view_x_position()
         pos_y = self.image.get_height() + Fonts.padding_top
         self.name_display = TextDisplay(
@@ -57,7 +65,7 @@ class Player:
         )
 
     
-    def set_score_display(self) -> None:
+    def __set_score_display(self) -> None:
         pos_x = self.__get_view_x_position()
         pos_y = self.image.get_height() + Fonts.padding_top + Fonts.padding_bottom
         self.score_display = TextDisplay(
@@ -73,6 +81,6 @@ class Player:
         player_2_name_pos_x: tuple = screen_width - (screen_width // 8)
         
         match self.id:
-            case 1: return player_1_name_pos_x
-            case 2: return player_2_name_pos_x
+            case 0: return player_1_name_pos_x
+            case 1: return player_2_name_pos_x
             case _: return (0, 0)
