@@ -107,6 +107,7 @@ class Paths:
     card_front_folder: str = 'front'
     card_back_folder: str = 'back'
     table_folder: str = 'table'
+    sounds_path: str = './data/sounds'
 
     @classmethod
     def main_menu_bg(self) -> str:
@@ -123,6 +124,10 @@ class Paths:
     @classmethod
     def table(self) -> str:
         return os_path_join(self.graphics_path, self.table_folder)
+    
+    @classmethod
+    def sound(self, sound: str):
+        return os_path_join(self.sounds_path, sound)
 
 
 @dataclass(frozen=True)
@@ -130,3 +135,9 @@ class Screens:
     main_menu_id = 0
     player_info_id = 1
     game_view_id = 2
+
+
+@dataclass(frozen=True)
+class Sounds:
+    button: str = 'button'
+    turn: str = 'turn'
