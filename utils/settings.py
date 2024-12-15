@@ -108,6 +108,7 @@ class Paths:
     card_back_folder: str = 'back'
     table_folder: str = 'table'
     sounds_path: str = './data/sounds'
+    sounds_format: str = 'wav'
 
     @classmethod
     def main_menu_bg(self) -> str:
@@ -127,7 +128,7 @@ class Paths:
     
     @classmethod
     def sound(self, sound: str):
-        return os_path_join(self.sounds_path, sound)
+        return f'{os_path_join(self.sounds_path, sound)}.{self.sounds_format}'
 
 
 @dataclass(frozen=True)
