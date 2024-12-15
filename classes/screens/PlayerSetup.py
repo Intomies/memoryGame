@@ -68,12 +68,14 @@ class PlayerSetup(State):
             self.last_click_time = get_ticks()
 
             if self.button_start_game.rect.collidepoint(event.pos):
+                self.button_start_game.sound.play()
                 self.engine.machine.next_state = MemoryGame(
                     self.engine,
                     [editor.player for editor in self.player_editors],
                     )
 
             if self.button_back.rect.collidepoint(event.pos):
+                self.button_back.sound.play()
                 self.engine.run(MainMenu.MainMenu(self.engine))
 
             for editor in self.player_editors: 

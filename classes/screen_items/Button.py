@@ -2,9 +2,10 @@ from typing import Callable, Optional
 from pygame import Surface
 from pygame.draw import rect as draw_rect
 from pygame.font import Font
+from pygame.mixer import Sound
 from pygame.rect import Rect
 
-from utils.settings import Cards, Colors
+from utils.settings import Cards, Colors, Paths, Sounds
 
 
 class Button:
@@ -29,6 +30,7 @@ class Button:
         
         self.active: bool = False
         self.rect: Optional[Rect] = None
+        self.sound = Sound(Paths.sound(Sounds.button))
 
         self.__init()
 

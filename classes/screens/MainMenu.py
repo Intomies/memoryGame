@@ -114,6 +114,7 @@ class MainMenu(State):
         if event.type == MOUSEBUTTONDOWN:
             for button, action in self.button_actions.items():
                 if button.rect.collidepoint(event.pos):
+                    button.sound.play()
                     action()
                     break
 

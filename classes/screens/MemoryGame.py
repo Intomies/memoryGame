@@ -68,6 +68,30 @@ class MemoryGame(State):
         self.create_table()
         self.create_deck()
         self.create_screen_items()
+
+    
+    def handle_event(self, event: Event, keys: ScancodeWrapper) -> None:
+        if event.type == MOUSEBUTTONDOWN:
+            
+            if self.button_back.rect.collidepoint(event.pos) or (self.game_over and self.game_over_view.ready and self.game_over_view.back_button.rect.collidepoint(event.pos)):
+                self.button_back.sound.play()
+                self.engine.machine.next_state = self.engine.machine.previous()
+            if self.button_quit.rect.collidepoint(event.pos):
+                self.button_quit.sound.play()
+                self.handle_game_over()
+
+            if self.game_over and self.game_over_view.ready and self.game_over_view.new_game_button.rect.collidepoint(event.pos):
+                self.game_over_view.new_game_button.sound.play()
+                self.init()
+    
+            self.handle_player_turn(event)
+
+        if event.type == MOUSEMOTION:
+            self.button_back.set_active(self.button_back.rect.collidepoint(event.pos) if self.button_back.rect else False)
+            self.button_quit.set_active(self.button_quit.rect.collidepoint(event.pos) if self.button_quit.rect else False)
+            if self.game_over and self.game_over_view.ready:
+                self.game_over_view.new_game_button.set_active(self.game_over_view.new_game_button.rect.collidepoint(event.pos))
+                self.game_over_view.back_button.set_active(self.game_over_view.back_button.rect.collidepoint(event.pos))
     
 
     def create_table(self) -> None:
@@ -111,27 +135,6 @@ class MemoryGame(State):
 
         for player in self.players: player.set_view(self.display_surface)
         self.game_over_view = GameOver(self.display_surface)
-
-    
-    def handle_event(self, event: Event, keys: ScancodeWrapper) -> None:
-        if event.type == MOUSEBUTTONDOWN:
-            
-            if self.button_back.rect.collidepoint(event.pos) or (self.game_over and self.game_over_view.ready and self.game_over_view.back_button.rect.collidepoint(event.pos)):
-                self.engine.machine.next_state = self.engine.machine.previous()
-            if self.button_quit.rect.collidepoint(event.pos):
-                self.handle_game_over()
-
-            if self.game_over and self.game_over_view.ready and self.game_over_view.new_game_button.rect.collidepoint(event.pos):
-                self.init()
-    
-            self.handle_player_turn(event)
-
-        if event.type == MOUSEMOTION:
-            self.button_back.set_active(self.button_back.rect.collidepoint(event.pos) if self.button_back.rect else False)
-            self.button_quit.set_active(self.button_quit.rect.collidepoint(event.pos) if self.button_quit.rect else False)
-            if self.game_over and self.game_over_view.ready:
-                self.game_over_view.new_game_button.set_active(self.game_over_view.new_game_button.rect.collidepoint(event.pos))
-                self.game_over_view.back_button.set_active(self.game_over_view.back_button.rect.collidepoint(event.pos))
             
     
     def handle_player_turn(self, event: Event) -> None:
