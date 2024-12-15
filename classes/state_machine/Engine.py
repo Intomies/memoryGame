@@ -7,16 +7,11 @@ from pygame import (
     K_ESCAPE
     )
 
-from pygame.display import (
-    flip,
-    set_caption,
-    set_mode
-    )
+from pygame.display import flip, set_caption, set_mode
+    
 from pygame.event import Event, get as get_event
-from pygame.key import (
-    get_pressed, 
-    ScancodeWrapper
-    )
+from pygame.key import get_pressed, ScancodeWrapper
+from pygame.mixer import init as init_mixer
 from pygame.time import Clock
 from sys import exit
 
@@ -35,6 +30,7 @@ class Engine:
         self.background_color = Colors.background
     
         set_caption(Mains.app_name)
+        init_mixer()
 
     def loop(self):
         while True:
