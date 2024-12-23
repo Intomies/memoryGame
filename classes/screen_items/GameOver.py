@@ -42,7 +42,7 @@ class GameOver:
     def __init(self) -> None:
         screen_width = self.display_surface.get_width()
         screen_height = self.display_surface.get_height()
-        bg_width = screen_width // 3
+        bg_width = screen_width // 2
         bg_height = screen_height // 2
         bg_left = screen_width // 2 - bg_width // 2
         bg_top = screen_height // 2 - bg_height // 2
