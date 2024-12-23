@@ -17,8 +17,10 @@ class Card:
         self.found_pair: bool = False
         self.selected_img: Surface = self.back_img if not self.found_pair else self.front_img
         self.rect: Rect = self.selected_img.get_rect()
-        self.sound = Sound(Paths.sound(Sounds.turn))
+        self.turn_sound = Sound(Paths.sound(Sounds.turn))
+        self.pair_sound = Sound(Paths.sound(Sounds.pair))
         
-    def turn(self):
-        self.sound.play()
+    def turn(self) -> None:
+        sound = self.pair_sound if self.found_pair else self.turn_sound
+        sound.play()
         self.selected_img = self.front_img if self.selected_img != self.front_img else self.back_img

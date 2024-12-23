@@ -142,3 +142,4 @@ class Screens:
 class Sounds:
     button: str = 'button'
     turn: str = 'turn'
+    pair: str = 'pair'

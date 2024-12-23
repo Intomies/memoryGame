@@ -171,9 +171,9 @@ class MemoryGame(State):
             return False
         
         elif len(self.open_cards) == 2 and self.open_cards[0].id[0] == self.open_cards[1].id[0]:
-            for c in self.deck.cards:
-                if c.id in [oc.id for oc in self.open_cards]:
-                    c.found_pair = True
+            for c in self.open_cards:
+                c.found_pair = True
+            self.open_cards[0].pair_sound.play()
             self.open_cards.clear()
             self.active_player.add_points()
             self.player_found_pair = True
@@ -181,9 +181,8 @@ class MemoryGame(State):
             return True
 
         else: 
-            for c in self.deck.cards:
-                if c.id in [oc.id for oc in self.open_cards]:
-                    c.turn()
+            for c in self.open_cards:
+                c.turn()
             self.open_cards.clear()
             self.turns += 1
             return True
