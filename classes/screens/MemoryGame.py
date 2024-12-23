@@ -17,7 +17,7 @@ from classes.state_machine.State import State
 from classes.game_components.Table import Table
 from classes.screen_items.TextDisplay import TextDisplay
 
-from utils.settings import Buttons, Cards, Paths, Screens, Tables, Fonts
+from utils.settings import Buttons, Cards, Colors, Paths, Screens, Tables, Fonts
 from utils.support import get_graphics_images_from_folder
 
 
@@ -47,6 +47,8 @@ class MemoryGame(State):
         self.button_quit: Optional[Button] = None
 
         self.game_over_view: Optional[GameOver] = None
+
+        self.turn_text: Optional[TextDisplay] = None
 
         self.open_cards: List[Card] = []
         self.player_found_pair = False
@@ -135,6 +137,10 @@ class MemoryGame(State):
 
         for player in self.players: player.set_view(self.display_surface)
         self.game_over_view = GameOver(self.display_surface)
+
+        turn_text_x = self.screen_width // 2
+        turn_text_y = 20
+        self.turn_text = TextDisplay(f'Turn: {self.turns}', Fonts.small(), (turn_text_x, turn_text_y))
             
     
     def handle_player_turn(self, event: Event) -> None:
@@ -198,7 +204,7 @@ class MemoryGame(State):
 
 
     def update(self) -> None:
-        pass
+        self.turn_text.text = f'Turn: {self.turns}'
 
 
     def draw(self) -> None:
@@ -206,6 +212,7 @@ class MemoryGame(State):
         self.deck.draw(self.screen_width, self.screen_height)
         self.button_back.draw_hoverable(self.display_surface)
         self.button_quit.draw_hoverable(self.display_surface)
+        self.turn_text.draw_static(self.display_surface, Colors.active)
 
         for player in self.players:
             player_turn = player.id == self.active_player.id
@@ -217,4 +224,5 @@ class MemoryGame(State):
 
 
     def run(self) -> None:
+        self.update()
         self.draw()

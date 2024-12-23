@@ -178,7 +178,7 @@ class MainMenu(State):
     def draw(self):
          self.table.draw()
          self.draw_bg_animation()
-         self.headline.draw_static_text(self.display_surface, Colors.active)
+         self.headline.draw_static(self.display_surface, Colors.active)
          self.button_1_player.draw_clickable(self.display_surface, self.get_active_button)
          self.button_2_players.draw_clickable(self.display_surface, self.get_active_button)
          self.button_start.draw_hoverable(self.display_surface)

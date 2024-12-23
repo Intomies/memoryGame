@@ -16,7 +16,7 @@ class TextDisplay:
         self.position = position
 
     # Draws basic texts on display
-    def draw_static_text(self, display: Surface, color: str | tuple[int, int, int]) -> None:
+    def draw_static(self, display: Surface, color: str | tuple[int, int, int]) -> None:
         value: Surface = self.font_style.render(str(self.text), True, color)
         value_rect: Rect = value.get_rect(center=self.position)
         display.blit(value, value_rect)
