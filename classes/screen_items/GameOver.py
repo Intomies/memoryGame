@@ -125,7 +125,7 @@ class GameOver:
         highest_score = max(self.players, key=lambda player: player.score) 
         lowest_score = min(self.players, key=lambda player: player.score) 
 
-        if len(self.players == 1):
+        if len(self.players) == 1:
             return f'Game ended on turn {self.turns}!'
 
         if highest_score == lowest_score:
